@@ -27,7 +27,7 @@ public class User {
     private Role role = Role.USER;
 
     @Column(nullable = false)
-    private boolean isActive = true;
+    private boolean active = true;
 
     private LocalDateTime lastLogin;
 
