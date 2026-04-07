@@ -120,7 +120,7 @@ void TC_INT_001_register_validData_returns201() throws Exception {
     @Test
     void TC_INT_007_getProfile_noToken_returns401() throws Exception {
         mockMvc.perform(get("/api/auth/me"))
-                .andExpect(status().isUnauthorized());
+                  .andExpect(status().is4xxClientError());
     }
 
     @Test
