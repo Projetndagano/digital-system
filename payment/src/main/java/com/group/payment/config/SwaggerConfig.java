@@ -17,7 +17,7 @@ public class SwaggerConfig {
             .info(new Info()
                 .title("Digital Payment System API")
                 .version("1.0.0")
-                .description("BSE 3203 Group Project - Victoria University"))
+                .description("Group F courseWork, Victoria University"))
             .addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
             .components(new Components()
                 .addSecuritySchemes("Bearer Authentication",
