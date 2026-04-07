@@ -8,6 +8,7 @@ class PaymentApplicationTests {
 
 	@Test
 	void contextLoads() {
+		System.out.println("Automated Test: Spring Context Loaded Successfully!");
 	}
 
 }
