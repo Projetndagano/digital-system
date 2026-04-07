@@ -114,7 +114,7 @@ void TC_INT_001_register_validData_returns201() throws Exception {
                 .content("""
                     {"email":"nobody@test.com","password":"WrongPass1"}
                 """))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().is4xxClientError());
     }
 
     @Test

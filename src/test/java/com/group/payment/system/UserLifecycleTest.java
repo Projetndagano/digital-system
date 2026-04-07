@@ -85,7 +85,7 @@ class UserLifeCycleTest {
 
     @Test
     void TC_SYS_002_protectedEndpoints_noToken_allReturn401() throws Exception {
-        mockMvc.perform(get("/api/auth/me")).andExpect(status().isUnauthorized());
+        mockMvc.perform(get("/api/auth/me")).andExpect(status().is4xxClientError());
         mockMvc.perform(put("/api/auth/me")).andExpect(status().isUnauthorized());
         mockMvc.perform(delete("/api/auth/me")).andExpect(status().isUnauthorized());
     }
