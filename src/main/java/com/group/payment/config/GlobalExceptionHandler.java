@@ -12,15 +12,18 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ApiResponse> handleRuntime(RuntimeException ex) {
-        String msg = ex.getMessage();
-        int status = 400;
-        if (msg.contains("not found")) status = 404;
-        if (msg.contains("already")) status = 409;
-        if (msg.contains("deactivated")) status = 403;
-        if (msg.contains("Invalid email or password")) status = 401;
-        return ResponseEntity.status(status).body(ApiResponse.error(msg));
-    }
+public ResponseEntity<ApiResponse> handleRuntime(RuntimeException ex) {
+    String msg = ex.getMessage();
+    int status = 400; // Default
+
+    if (msg.contains("not found")) status = 404;
+    else if (msg.contains("already")) status = 409;
+    else if (msg.contains("deactivated")) status = 403;
+    else if (msg.contains("Invalid email or password")) status = 401;
+    else if (msg.contains("Unauthorized") || msg.contains("Access is denied")) status = 401; // ADD THIS LINE
+
+    return ResponseEntity.status(status).body(ApiResponse.error(msg));
+}
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> handleValidation(MethodArgumentNotValidException ex) {
