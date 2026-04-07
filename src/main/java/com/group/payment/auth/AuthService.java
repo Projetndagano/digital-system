@@ -62,9 +62,10 @@ public class AuthService {
         ));
     }
 
-    public Map<String, Object> getProfile(User user) {
-        return safeUser(user);
-    }
+   public Map<String, Object> getProfile(User user) {
+    // Wrap the safeUser map inside another map with the key "user"
+    return Map.of("user", safeUser(user));
+}
 
     public ApiResponse updateProfile(User user, UpdateProfileRequest request) {
         if (request.getUsername() != null) {
@@ -82,7 +83,7 @@ public class AuthService {
         user.setUpdatedAt(LocalDateTime.now());
         userRepository.save(user);
 
-        return ApiResponse.ok("Profile updated", safeUser(user));
+        return ApiResponse.ok("Profile updated", Map.of("user", safeUser(user)));
     }
 
     public ApiResponse deactivateAccount(User user) {
