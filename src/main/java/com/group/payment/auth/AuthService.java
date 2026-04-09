@@ -18,6 +18,7 @@ public class AuthService {
     private final JwtUtil jwtUtil;
 
     public ApiResponse register(RegisterRequest request) {
+
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email already registered");
         }
