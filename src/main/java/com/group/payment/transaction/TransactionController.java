@@ -20,11 +20,11 @@ public class TransactionController {
             @AuthenticationPrincipal User sender,
             @RequestBody Map<String, Object> body) {
 
-        String receiverEmail = (String) body.get("receiverEmail");
+        String phoneNumber = (String) body.get("receiverPhoneNumber");
         BigDecimal amount = new BigDecimal(body.get("amount").toString());
         String description = (String) body.getOrDefault("description", "");
 
-        return ResponseEntity.ok(transactionService.sendMoney(sender, receiverEmail, amount, description));
+        return ResponseEntity.ok(transactionService.sendMoney(sender, phoneNumber, amount, description));
     }
 
     @GetMapping

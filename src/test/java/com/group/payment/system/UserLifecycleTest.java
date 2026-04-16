@@ -39,7 +39,7 @@ class UserLifeCycleTest {
         String response = mockMvc.perform(post("/api/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
-                    {"username":"lifecycleuser","email":"lifecycle@test.com","password":"Password1"}
+                    {"username":"lifecycleuser","email":"lifecycle@test.com","password":"Password1","phoneNumber": "0781000000"}
                 """))
                 .andExpect(status().isCreated())
                 .andReturn().getResponse().getContentAsString();
@@ -91,16 +91,22 @@ class UserLifeCycleTest {
     }
 
     @Test
-    void TC_SYS_003_duplicateEmail_secondRegistrationFails() throws Exception {
-        String body = """
-            {"username":"dupuser","email":"dup2@test.com","password":"Password1"}
-        """;
-        mockMvc.perform(post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON).content(body))
-                .andExpect(status().isCreated());
 
-        mockMvc.perform(post("/api/auth/register")
-                .contentType(MediaType.APPLICATION_JSON).content(body))
-                .andExpect(status().isConflict());
-    }
+void TC_SYS_003_duplicateEmail_secondRegistrationFails() throws Exception {
+    // Attempt 1: Valid user
+    String user1 = """
+        {"username":"user1","email":"duplicate@test.com","password":"Password1","phoneNumber": "0722222222"}
+    """;
+    mockMvc.perform(post("/api/auth/register")
+            .contentType(MediaType.APPLICATION_JSON).content(user1))
+            .andExpect(status().isCreated());
+
+    // Attempt 2: Different username/phone, but DUPLICATE EMAIL
+    String user2 = """
+        {"username":"user2","email":"duplicate@test.com","password":"Password1","phoneNumber": "0722222222"}
+    """;
+    mockMvc.perform(post("/api/auth/register")
+            .contentType(MediaType.APPLICATION_JSON).content(user2))
+            .andExpect(status().isConflict()); // Now this fails specifically because of the email
+}
 }

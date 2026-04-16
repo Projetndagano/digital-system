@@ -39,7 +39,8 @@ void TC_INT_001_register_validData_returns201() throws Exception {
                 {
                     "username": "integrationuser",
                     "email": "integration@test.com",
-                    "password": "Password1"
+                    "password": "Password1",
+                    "phoneNumber": "0781234567"
                 }
             """))
             .andExpect(status().isCreated())
@@ -54,7 +55,8 @@ void TC_INT_001_register_validData_returns201() throws Exception {
                     {
                         "username": "testuser",
                         "email": "notanemail",
-                        "password": "Password1"
+                        "password": "Password1",
+                        "phoneNumber": "0766666666"
                     }
                 """))
                 .andExpect(status().isUnprocessableEntity());
@@ -68,7 +70,8 @@ void TC_INT_001_register_validData_returns201() throws Exception {
                     {
                         "username": "testuser",
                         "email": "test2@test.com",
-                        "password": "weak"
+                        "password": "weak",
+                        "phoneNumber": "0721234567"
                     }
                 """))
                 .andExpect(status().isUnprocessableEntity());
@@ -80,7 +83,8 @@ void TC_INT_001_register_validData_returns201() throws Exception {
             {
                 "username": "dupuser",
                 "email": "dup@test.com",
-                "password": "Password1"
+                "password": "Password1",
+                "phoneNumber": "0731234567"
             }
         """;
         mockMvc.perform(post("/api/auth/register")
@@ -95,7 +99,7 @@ void TC_INT_001_register_validData_returns201() throws Exception {
         mockMvc.perform(post("/api/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
-                    {"username":"loginuser","email":"login@test.com","password":"Password1"}
+                    {"username":"loginuser","email":"login@test.com","password":"Password1","phoneNumber": "0788888888"}
                 """));
 
         mockMvc.perform(post("/api/auth/login")
@@ -128,7 +132,7 @@ void TC_INT_001_register_validData_returns201() throws Exception {
         String response = mockMvc.perform(post("/api/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("""
-                    {"username":"profileuser","email":"profile@test.com","password":"Password1"}
+                    {"username":"profileuser","email":"profile@test.com","password":"Password1","phoneNumber": "0722222222"}
                 """))
                 .andReturn().getResponse().getContentAsString();
 
@@ -139,4 +143,18 @@ void TC_INT_001_register_validData_returns201() throws Exception {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.user.email").value("profile@test.com"));
     }
+    @Test
+void TC_INT_009_register_invalidPhone_returns422() throws Exception {
+    mockMvc.perform(post("/api/auth/register")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+                {
+                    "username": "phoneuser",
+                    "email": "phone@test.com",
+                    "password": "Password1",
+                    "phoneNumber": "0800123456" 
+                }
+            """))
+            .andExpect(status().isUnprocessableEntity()); // Should fail because it starts with 08
+}
 }

@@ -18,7 +18,7 @@ public class TransactionService {
     private final WalletRepository walletRepository;
 
     @Transactional
-    public ApiResponse sendMoney(User sender, String receiverEmail, BigDecimal amount, String description) {
+    public ApiResponse sendMoney(User sender, String receiverPhone, BigDecimal amount, String description) {
 
         // Check amount is positive
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
@@ -35,7 +35,7 @@ public class TransactionService {
         }
 
         // Get receiver wallet
-        Wallet receiverWallet = walletRepository.findByUserEmail(receiverEmail)
+        Wallet receiverWallet = walletRepository.findByUserPhoneNumber(receiverPhone)
                 .orElseThrow(() -> new RuntimeException("Receiver wallet not found"));
 
         // Deduct from sender
