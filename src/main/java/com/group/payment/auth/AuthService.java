@@ -20,7 +20,7 @@ public class AuthService {
     public ApiResponse register(RegisterRequest request) {
 
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email already registered");
+            throw new RuntimeException("Email already registered successfully");
         }
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new RuntimeException("Username already taken");
